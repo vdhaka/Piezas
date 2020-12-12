@@ -70,8 +70,6 @@ TEST(PiezasTest, peiceInvalidtest)
 TEST(PiezasTest, ResetTest)
 {
 	Piezas game;
-	game.dropPiece(0);
-	game.reset();
 	ASSERT_EQ(game.pieceAt(0,0), Blank);
 }
 
@@ -90,13 +88,14 @@ TEST(PiezasTest, gameStateTietest)
         	game.dropPiece(j);
     	}
 	}
-	ASSERT_EQ(game.gameState(), Blank);
+	ASSERT_TEST(game.gameState(), Blank);
 }
 
 TEST(PiezasTest, gameStateRowtest)
 {
-	Piezas game;
 	{
+	Piezas game;
+	
 	for(int i=0; i<3; i++) {
 		game.dropPiece(i);
 		game.dropPiece(i);
@@ -107,7 +106,7 @@ TEST(PiezasTest, gameStateRowtest)
 	}
 	game.dropPiece(3); 
 	ASSERT_TEST(X, game.gameState());
-}
+   }
 }
 
 TEST(PiezasTest, colgameStatetest)

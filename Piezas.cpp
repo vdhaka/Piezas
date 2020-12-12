@@ -101,8 +101,8 @@ Piece Piezas::pieceAt(int row, int column) {
 **/
 Piece Piezas::gameState()
 {
-     int xMax = 0;
-    int oMax = 0;
+     int xgame = 0;
+    int ogame = 0;
 
     for(int i = 0; i < BOARD_ROWS; i++){
         int xRow = 0;
@@ -111,14 +111,14 @@ Piece Piezas::gameState()
             if(board[i][j] == X){
                 oRow = 0;
                 xRow++;
-                if(xRow > xMax){
-                    xMax = xRow;
+                if(xRow > xgame){
+                    xgame = xRow;
                 }//if
             }else if(board[i][j] == O){
                 xRow = 0;
                 oRow++;
                 if(oRow > oMax){
-                    oMax = oRow;
+                    ogame = oRow;
                 }//if
             }else{
                 return Invalid;
@@ -133,22 +133,22 @@ Piece Piezas::gameState()
             if(board[i][j] == X){
                 oCol = 0;
                 xCol++;
-                if(xCol > xMax){
-                    xMax = xCol;
+                if(xCol > xgame){
+                    xgame = xCol;
                 }//if
             }else if(board[i][j] == O){
                 xCol = 0;
                 oCol++;
                 if(oCol > oMax){
-                    oMax = oCol;
+                    ogame = oCol;
                 }//if
             }//else
         }//for i
     }//for j
 
-    if(xMax > oMax){
+    if(xgame > ogame){
         return X;
-    }else if(xMax < oMax){
+    }else if(xgame < ogame){
         return O;
     }else{
         return Blank;

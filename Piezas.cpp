@@ -108,12 +108,8 @@ Piece Piezas::gameState()
         int xRow = 0;
         int oRow = 0;
         for(int j = 0; j < BOARD_COLS; j++){
-            if(board[i][j] == X){
-                oRow = 0;
-                xRow++;
-                if(xRow > xgame){
-                    xgame = xRow;
-                }//if
+            if(board[i][j] == Blank){
+                return Invalid;
             }else if(board[i][j] == O){
                 xRow = 0;
                 oRow++;
@@ -130,17 +126,11 @@ Piece Piezas::gameState()
         int xCol = 0;
         int oCol = 0;
         for(int i = 0; i < BOARD_ROWS; i++){
-            if(board[i][j] == X){
-                oCol = 0;
-                xCol++;
-                if(xCol > xgame){
-                    xgame = xCol;
-                }//if
-            }else if(board[i][j] == O){
-                xCol = 0;
-                oCol++;
-                if(oCol > oMax){
-                    ogame = oCol;
+            if(board[i][j] == board[i-1][j]){
+                if(board[i][j] == X)
+                    xCol++; 
+                else
+                    oCol++; 
                 }//if
             }//else
         }//for i

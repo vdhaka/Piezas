@@ -22,6 +22,14 @@
 **/
 Piezas::Piezas()
 {
+    turn = X;
+    board.resize(BOARD_ROWS);
+    for(int i = 0; i < BOARD_ROWS; i++){
+        for(int j = 0; j < BOARD_COLS; j++){
+            board[i].push_back(Blank);
+        }
+    }
+    
 }
 
 /**
@@ -30,6 +38,11 @@ Piezas::Piezas()
 **/
 void Piezas::reset()
 {
+    for(int i = 0; i < BOARD_ROWS; i++){
+        for(int j = 0; j < BOARD_COLS; j++){
+            board[i][j] = Blank;
+        }
+    }
 }
 
 /**
@@ -42,6 +55,21 @@ void Piezas::reset()
 **/ 
 Piece Piezas::dropPiece(int column)
 {
+    Piece current = turn;
+    if(turn == X){
+        turn = O;
+    }else{
+        turn = X;
+    }//else
+    if(column >= BOARD_COLS || column < 0){
+        return Invalid;
+    }//if
+    for(int i = 0; i < BOARD_ROWS; i++){
+        if(board[i][column] == Blank){
+            board[i][column] = current;
+            return current;
+        }//if
+    }//for
     return Blank;
 }
 
@@ -49,9 +77,17 @@ Piece Piezas::dropPiece(int column)
  * Returns what piece is at the provided coordinates, or Blank if there
  * are no pieces there, or Invalid if the coordinates are out of bounds
 **/
-Piece Piezas::pieceAt(int row, int column)
-{
-    return Blank;
+Piece Piezas::pieceAt(int row, int column) {
+    if(row < 0 || row >= BOARD_ROWS)
+		return Invalid;
+
+	if(column < 0 || column >= BOARD_COLS)
+		return Invalid;
+
+	if(board[row][column] == Blank)
+		return Blank;
+
+	return board[row][column];
 }
 
 /**
@@ -65,5 +101,57 @@ Piece Piezas::pieceAt(int row, int column)
 **/
 Piece Piezas::gameState()
 {
-    return Blank;
+     int xMax = 0;
+    int oMax = 0;
+
+    for(int i = 0; i < BOARD_ROWS; i++){
+        int xRow = 0;
+        int oRow = 0;
+        for(int j = 0; j < BOARD_COLS; j++){
+            if(board[i][j] == X){
+                oRow = 0;
+                xRow++;
+                if(xRow > xMax){
+                    xMax = xRow;
+                }//if
+            }else if(board[i][j] == O){
+                xRow = 0;
+                oRow++;
+                if(oRow > oMax){
+                    oMax = oRow;
+                }//if
+            }else{
+                return Invalid;
+            }//else
+        }//for j
+    }//for i
+
+    for(int j = 0; j < BOARD_COLS; j++){
+        int xCol = 0;
+        int oCol = 0;
+        for(int i = 0; i < BOARD_ROWS; i++){
+            if(board[i][j] == X){
+                oCol = 0;
+                xCol++;
+                if(xCol > xMax){
+                    xMax = xCol;
+                }//if
+            }else if(board[i][j] == O){
+                xCol = 0;
+                oCol++;
+                if(oCol > oMax){
+                    oMax = oCol;
+                }//if
+            }//else
+        }//for i
+    }//for j
+
+    if(xMax > oMax){
+        return X;
+    }else if(xMax < oMax){
+        return O;
+    }else{
+        return Blank;
+    }//else
+
 }
